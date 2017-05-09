@@ -1,2 +1,11 @@
+# build file
+build/
+
+# CLion build file
+cmake-build-debug/
+
+# CLion .idea file
+.idea/
+
 # image
 image/
