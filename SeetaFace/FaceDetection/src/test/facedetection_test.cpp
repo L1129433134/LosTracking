@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
 
     seeta::FaceDetection detector(argv[1]);
 
-    detector.SetMinFaceSize(40);
+    detector.SetMinFaceSize(200);
     detector.SetScoreThresh(2.f);
     detector.SetImagePyramidScaleFactor(0.8f);
     detector.SetWindowStep(4, 4);
@@ -61,6 +61,7 @@ int main(int argc, char** argv) {
     cv::Mat img, img_gray;
     reader.nextImage(img);
 
+    std::stringstream ss;
     while(!img.empty()) {
         if (img.channels() != 1)
             cv::cvtColor(img, img_gray, cv::COLOR_BGR2GRAY);
@@ -79,20 +80,7 @@ int main(int argc, char** argv) {
         double secs = (t1 - t0) / cv::getTickFrequency();
 
         cout << "Detections takes " << secs << " seconds " << endl;
-#ifdef USE_OPENMP
-        cout << "OpenMP is used." << endl;
-#else
-        cout << "OpenMP is not used. " << endl;
-#endif
 
-#ifdef USE_SSE
-        cout << "SSE is used." << endl;
-#else
-        cout << "SSE is not used." << endl;
-#endif
-
-        cout << "Image size (wxh): " << img_data.width << "x"
-             << img_data.height << endl;
 
         cv::Rect face_rect;
         int32_t num_face = static_cast<int32_t>(faces.size());
@@ -102,7 +90,10 @@ int main(int argc, char** argv) {
             face_rect.y = faces[i].bbox.y;
             face_rect.width = faces[i].bbox.width;
             face_rect.height = faces[i].bbox.height;
-
+            ss.clear();
+            ss.str("");
+            ss << face_rect.width;
+            cv::putText(img, ss.str(), cv::Point(face_rect.x, face_rect.y), 1, 4, cv::Scalar(0, 255, 0));
             cv::rectangle(img, face_rect, CV_RGB(0, 0, 255), 4, 8, 0);
         }
 
@@ -114,5 +105,6 @@ int main(int argc, char** argv) {
 
         reader.nextImage(img);
     }
+
     cv::destroyAllWindows();
 }

@@ -7,8 +7,8 @@
 void imageReader::init()
 {
     cap.open(0);
-//    cap.set(CV_CAP_PROP_FRAME_WIDTH, 1280);
-//    cap.set(CV_CAP_PROP_FRAME_HEIGHT, 720);
+    cap.set(CV_CAP_PROP_FRAME_WIDTH, 1920);
+    cap.set(CV_CAP_PROP_FRAME_HEIGHT, 1080);
 }
 
 bool imageReader::nextImage(cv::Mat& image)
