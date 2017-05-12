@@ -76,7 +76,8 @@ if (BUILD_EXAMPLES)
         add_executable(LosLabel
                 src/demo/main.cpp
                 src/demo/ImageReader.cpp
-                src/demo/EyesDetector.cpp)
+                src/demo/EyesDetector.cpp
+                src/demo/LosLabel.cpp)
         target_link_libraries(LosLabel ${required_libs})
     endif()
 endif()
