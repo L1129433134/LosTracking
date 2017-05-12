@@ -7,11 +7,11 @@
 
 #include "opencv2/opencv.hpp"
 
-class imageReader
+class ImageReader
 {
 public:
-    imageReader() {init();}
-    ~imageReader() {}
+    ImageReader() {init();}
+    ~ImageReader() {}
 
     bool getImage(cv::Mat& image);
 

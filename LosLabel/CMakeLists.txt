@@ -74,8 +74,9 @@ if (BUILD_EXAMPLES)
         list(APPEND required_libs ${OpenCV_LIBS})
 
         add_executable(LosLabel
-                src/demo/LosLabel.cpp
-                src/demo/imageReader.cpp)
+                src/demo/main.cpp
+                src/demo/ImageReader.cpp
+                src/demo/EyesDetector.cpp)
         target_link_libraries(LosLabel ${required_libs})
     endif()
 endif()

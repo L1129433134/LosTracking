@@ -2,16 +2,16 @@
 // Created by lup on 17-5-9.
 //
 
-#include "imageReader.h"
+#include "ImageReader.h"
 
-void imageReader::init()
+void ImageReader::init()
 {
     cap.open(0);
     cap.set(CV_CAP_PROP_FRAME_WIDTH, 1920);
     cap.set(CV_CAP_PROP_FRAME_HEIGHT, 1080);
 }
 
-bool imageReader::getImage(cv::Mat& image)
+bool ImageReader::getImage(cv::Mat& image)
 {
     cap >> image;
     return image.cols > 0;
