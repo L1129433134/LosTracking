@@ -13,7 +13,7 @@ public:
     imageReader() {init();}
     ~imageReader() {}
 
-    bool nextImage(cv::Mat& image);
+    bool getImage(cv::Mat& image);
 
 private:
     void init();

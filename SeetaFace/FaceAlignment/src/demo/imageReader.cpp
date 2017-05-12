@@ -11,7 +11,7 @@ void imageReader::init()
     cap.set(CV_CAP_PROP_FRAME_HEIGHT, 1080);
 }
 
-bool imageReader::nextImage(cv::Mat& image)
+bool imageReader::getImage(cv::Mat& image)
 {
     cap >> image;
     return image.cols > 0;

@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 2.8.4)
 
-project(seetaFaceAlignment)
+project(LosLabel)
 
 # Build options
 option(BUILD_EXAMPLES  "Set to ON to build examples"  ON)
 option(USE_OPENMP      "Set to ON to build use openmp"  ON)
 option(USE_SSE         "Set to ON to build use SSE"  ON)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 
 # Use C++11
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -52,14 +52,13 @@ add_library(seetaFaceDetectionLib SHARED ${FaceDetectionSrc})
 
 # Build Face Alignment library
 set(FaceAlignmentSrc
-    src/FaceAlignmentSrc/cfan.cpp
-    src/FaceAlignmentSrc/face_alignment.cpp
-    src/FaceAlignmentSrc/sift.cpp
-    )
+        src/FaceAlignmentSrc/cfan.cpp
+        src/FaceAlignmentSrc/face_alignment.cpp
+        src/FaceAlignmentSrc/sift.cpp)
 
 add_library(seetaFaceAlignmentLib SHARED ${FaceAlignmentSrc})
 
-set(fa_required_libs
+set(required_libs
         seetaFaceDetectionLib
         seetaFaceAlignmentLib)
 
@@ -72,12 +71,11 @@ if (BUILD_EXAMPLES)
         message(STATUS "OpenCV version: ${OpenCV_VERSION}")
         message(STATUS "Build with examples.")
         include_directories(${OpenCV_INCLUDE_DIRS})
-        list(APPEND fa_required_libs ${OpenCV_LIBS})
+        list(APPEND required_libs ${OpenCV_LIBS})
 
-        add_executable(faceAlignment_test
-                src/demo/face_alignment_test.cpp
-                src/demo/imageReader.h
+        add_executable(LosLabel
+                src/demo/LosLabel.cpp
                 src/demo/imageReader.cpp)
-        target_link_libraries(faceAlignment_test ${fa_required_libs})
+        target_link_libraries(LosLabel ${required_libs})
     endif()
 endif()

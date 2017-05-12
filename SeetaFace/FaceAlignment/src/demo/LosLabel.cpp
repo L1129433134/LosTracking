@@ -41,6 +41,7 @@
 #include "imageReader.h"
 
 #define SHOW_TIME
+const std::string WIN_NAME = "imgColor";
 
 int main(int argc, char** argv)
 {
@@ -57,7 +58,7 @@ int main(int argc, char** argv)
     //load image
     imageReader reader;
     cv::Mat img, img_gray;
-    reader.nextImage(img);
+    reader.getImage(img);
 
 #ifdef SHOW_TIME
     double time;
@@ -110,13 +111,13 @@ int main(int argc, char** argv)
         {
             cv::circle(img, cv::Point(points[i].x, points[i].y), 2, CV_RGB(0, 255, 0), CV_FILLED);
         }
-        cv::imshow("img", img);
+        cv::imshow(WIN_NAME, img);
         if (cv::waitKey(1) == 'q')
         {
             break;
         }
 
-        reader.nextImage(img);
+        reader.getImage(img);
     }
 
 #ifdef SHOW_TIME
