@@ -21,13 +21,6 @@ EyesDetector::EyesDetector() : m_faceDetector(FaceDetectionModelName.c_str()),
     m_faceDetector.SetWindowStep(4, 4);
 }
 
-int EyesDetector::faceDetect(std::vector<seeta::FaceInfo>& faces)
-{
-    assert(m_imgData.num_channels == 1);
-    faces = m_faceDetector.Detect(m_imgData);
-    return faces.size();
-}
-
 int EyesDetector::faceDetect(const cv::Mat& image, std::vector<cv::Rect>& faces)
 {
     cv::Mat imgGray;
@@ -42,6 +35,7 @@ int EyesDetector::faceDetect(const cv::Mat& image, std::vector<cv::Rect>& faces)
     m_imgData.width = imgGray.cols;
     m_imgData.height = imgGray.rows;
     m_imgData.num_channels = 1;
+
     std::vector<seeta::FaceInfo> facesInfo = m_faceDetector.Detect(m_imgData);
 
     faces.clear();
@@ -70,7 +64,7 @@ int EyesDetector::eyesDetect(const cv::Mat& image, std::vector<cv::Rect>& faces,
     m_imgData.num_channels = 1;
 
     std::vector<seeta::FaceInfo> facesInfo;
-    int faceNum = faceDetect(facesInfo);
+    facesInfo = m_faceDetector.Detect(m_imgData);
 
     seeta::FacialLandmark points[5];
     std::vector<cv::Point> temp;

@@ -17,8 +17,7 @@ public:
 
     int faceDetect(const cv::Mat& image, std::vector<cv::Rect>& faces);
     int eyesDetect(const cv::Mat& image, std::vector<cv::Rect>& faces, std::vector<std::vector<cv::Point>>& keys);
-private:
-    int faceDetect(std::vector<seeta::FaceInfo>& faces);
+
 private:
     seeta::FaceDetection m_faceDetector;
     seeta::FaceAlignment m_keysDetector;

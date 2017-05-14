@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 
     Timer timer;
     timer.test();
-    getchar();
+//    getchar();
 
 #ifdef SHOW_TIME
     double time;
