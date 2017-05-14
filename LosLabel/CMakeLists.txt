@@ -77,7 +77,8 @@ if (BUILD_EXAMPLES)
                 src/demo/main.cpp
                 src/demo/ImageReader.cpp
                 src/demo/EyesDetector.cpp
-                src/demo/LosLabel.cpp)
+                src/demo/LosLabel.cpp
+                src/demo/Timer.cpp)
         target_link_libraries(LosLabel ${required_libs})
     endif()
 endif()

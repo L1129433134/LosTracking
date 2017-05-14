@@ -4,6 +4,7 @@
 
 #include "opencv2/opencv.hpp"
 #include "ImageReader.h"
+#include "Timer.h"
 #include "EyesDetector.h"
 
 #define SHOW_TIME
@@ -18,6 +19,10 @@ int main(int argc, char** argv)
     ImageReader reader;
     cv::Mat img, img_gray;
     reader.getImage(img);
+
+    Timer timer;
+    timer.test();
+    getchar();
 
 #ifdef SHOW_TIME
     double time;
