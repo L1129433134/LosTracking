@@ -45,9 +45,8 @@ namespace
     const std::string CC_RAYLESS = "rayless";
 }
 
-class LosLabelAttributes
+struct LosLabelAttributes
 {
-public:
     std::string gender;
     std::string age;
     std::string glasses;
@@ -55,6 +54,10 @@ public:
     std::string eyeSize;
     std::string skinColor;
     std::string lightIntensity;
+
+    std::string collector;
+    std::string locality;
+    std::string dataAndTime;
 };
 
 class LosLabel
@@ -66,14 +69,64 @@ public:
     bool writeLabel();
     bool readLabel();
 
+    void setImageName(const std::string& _imageName) {imageName = _imageName;}
+    void setFaceWindow(const cv::Rect& _faceWindow) {faceWindow = _faceWindow;}
+    void setKeysLocation(const std::vector<cv::Point>& _keysLocation)
+    {
+        assert(_keysLocation.size() == 5);
+        keysLocation = _keysLocation;
+    }
+    void setFocus(const cv::Point& _focus)
+    {
+        assert(_focus.x >= focusRange.x && _focus.x < focusRange.x + focusRange.width);
+        assert(_focus.y >= focusRange.y && _focus.y < focusRange.y + focusRange.height);
+        focus = _focus;
+    }
+    void setFocusRange(const cv::Rect& _focusRange) {focusRange = _focusRange;}
+    void setFocusRange(const cv::Point& lt, const cv::Point& rb) {focusRange = cv::Rect(lt,rb);}
+    void setAttributes(const LosLabelAttributes& _attributes);
+
+    std::string getImageName() {return imageName;}
+    cv::Rect getfaceWindow() {return faceWindow;}
+    std::vector<cv::Point> getKeysLocation() { return keysLocation;}
+    cv::Point getFocus() { return focus;}
+    LosLabelAttributes getAttributes() { return attributes;}
+    cv::Rect getFocusRange() { return focusRange;}
+
+    bool check();
+    void write();
+    void read();
+    void writeAttributes();
+    void readAttributes();
+
 private:
     std::string             imageName;
     cv::Rect                faceWindow;
     std::vector<cv::Point>  keysLocation;
     cv::Point               focus;
 
-    LosLabelAttributes attributes;
+    LosLabelAttributes      attributes;
+    cv::Rect                focusRange;
 };
 
+class LosLabels
+{
+public:
+    LosLabels();
+    ~LosLabels();
+
+    void push_back(const LosLabel);
+    LosLabel pop_back();
+    void clear() {labels.clear();}
+    size_t size() { return labels.size();}
+
+    bool write(const std::string& fileName);
+    bool read(const std::string& fileName);
+
+    LosLabels find() {}     // use lambda
+
+private:
+    std::vector<LosLabel> labels;
+};
 
 #endif //LOSLABEL_LOSLABEL_H
