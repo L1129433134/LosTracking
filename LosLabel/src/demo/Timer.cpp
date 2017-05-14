@@ -88,10 +88,10 @@ void Timer::setTime()
 
 void Timer::timingStart()
 {
-    clockTime = clock();
+    clockTime = std::chrono::system_clock::now();
 }
 
-long Timer::timingStop()
+double Timer::timingStop()
 {
-    return (clock()-clockTime) * 1000 / CLOCKS_PER_SEC;
+    return static_cast<double>((std::chrono::system_clock::now() - clockTime).count()) / nanosPreClock;
 }

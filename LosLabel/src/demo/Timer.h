@@ -6,6 +6,7 @@
 #define LOSLABEL_TIMER_H
 
 #include <time.h>
+#include <chrono>
 #include <vector>
 #include <string>
 
@@ -36,16 +37,18 @@ namespace
             "Friday",
             "Saturday",
     };
+
+    const int nanosPreSeconds =  1000000000;
 }
 
 class Timer
 {
 public:
-    Timer(int _timeZone = 8) : timeZone(_timeZone) {}
+    Timer(int _timeZone = 8, int _clockPreSec = 1000) : timeZone(_timeZone), nanosPreClock(nanosPreSeconds / _clockPreSec) {}
     ~Timer() {}
 
     void timingStart();
-    long timingStop();
+    double timingStop();
 
 
     void setTimeZone(const int _timeZone) {timeZone = _timeZone;}
@@ -71,12 +74,10 @@ private:
     tm Ctime;
     time_t seconds;                   /* Seconds since the Epoch.  */
     bool leapYear = false;
-    long clockTime;
-
     std::vector<int> monthDayNums{0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-
+    std::chrono::system_clock::time_point clockTime;
+    int nanosPreClock;
 };
-
 
 #endif //LOSLABEL_TIMER_H
