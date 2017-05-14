@@ -20,13 +20,11 @@ int main(int argc, char** argv)
     cv::Mat img, img_gray;
     reader.getImage(img);
 
-    Timer timer;
-    timer.test();
-//    getchar();
 
 #ifdef SHOW_TIME
-    double time;
-    std::vector<double> times;
+    Timer timer;
+    long time;
+    std::vector<long> times;
 #endif // SHOW_TIME
 
     std::vector<cv::Rect> faces;
@@ -34,13 +32,16 @@ int main(int argc, char** argv)
     while(!img.empty())
     {
 #ifdef SHOW_TIME
-        time = cv::getTickCount();
+        timer.timingStart();
+        double tt = cv::getTickCount();
 #endif // SHOW_TIME
         // Detect faces
         int faceNum = eyesDetector.eyesDetect(img, faces, keys);
 #ifdef SHOW_TIME
-        time = (cv::getTickCount() - time) / cv::getTickFrequency() * 1000;
-        std::cout<<"detector.Detect: "<<time<<" ms"<<std::endl;
+        tt = cv::getTickCount() - tt;
+        time = timer.timingStop();
+        std::cout<<"timer: "<<time<<" ms"<<std::endl;
+        std::cout<<"opencv: "<<tt * 1000 / cv::getTickFrequency()<<" ms"<<std::endl<<std::endl;
         times.push_back(time);
 #endif // SHOW_TIME
 
@@ -68,7 +69,7 @@ int main(int argc, char** argv)
     }
 
 #ifdef SHOW_TIME
-    double total = 0.0, mean;
+    long total = 0, mean;
     for (auto p : times)
     {
         total += p;
