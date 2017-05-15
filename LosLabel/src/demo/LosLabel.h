@@ -21,28 +21,41 @@ namespace
     const std::string CC_ELDERLY = "elderly";
 
     // glasses
-    const std::string CC_NO_GLASSES = "no glasses";
-    const std::string CC_HAVE_GLASSES = "have glasses";
-    const std::string CC_CONTACT_LENSES = "Contact lenses";
+    const std::string CC_NO_GLASSES = "no-glasses";
+    const std::string CC_HAVE_GLASSES = "have-glasses";
+    const std::string CC_CONTACT_LENSES = "Contact-lenses";
 
     // eyeColor
-    const std::string CC_BALCK_EYES = "black eyes";
-    const std::string CC_BLUE_EYES = "blue eyes";
+    const std::string CC_BALCK_EYES = "black-eyes";
+    const std::string CC_BLUE_EYES = "blue-eyes";
 
     // eyeSize
-    const std::string CC_SMALL_EYES = "small eyes";
-    const std::string CC_NORMAL_EYES = "normal eyes";
-    const std::string CC_BIG_EYES = "big eyes";
+    const std::string CC_SMALL_EYES = "small-eyes";
+    const std::string CC_NORMAL_EYES = "normal-eyes";
+    const std::string CC_BIG_EYES = "big-eyes";
 
     // skinColor
-    const std::string CC_YELLOW_SKIN = "yellow skin";
-    const std::string CC_WHITE_SKIN = "white skin";
-    const std::string CC_BLACK_SKIN = "black skin";
+    const std::string CC_YELLOW_SKIN = "yellow-skin";
+    const std::string CC_WHITE_SKIN = "white-skin";
+    const std::string CC_BLACK_SKIN = "black-skin";
 
     // lightIntensity
     const std::string CC_BRIGHT = "bright";
     const std::string CC_GLARING = "glaring";
     const std::string CC_RAYLESS = "rayless";
+
+    // machineType
+    const std::string CC_LAPTOP = "laptop";
+
+    // machineName
+    const std::string CC_Hasee_Z8 = "Hasee-Z8-KP7S1";
+
+    // cameraPosition;
+    const std::string CC_UPPER_CENTER = "upper-center";
+
+    // cameraResolution
+    const std::string CC_1080P = "1080P";
+    const std::string CC_720P = "720P";
 }
 
 struct LosLabelAttributes
@@ -58,6 +71,13 @@ struct LosLabelAttributes
     std::string collector;
     std::string locality;
     std::string dataAndTime;
+
+    std::string machineType;
+    std::string machineName;
+    std::string cameraPosition;
+    std::string cameraResolution;
+
+    std::string remarks;
 };
 
 class LosLabel
