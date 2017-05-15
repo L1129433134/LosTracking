@@ -12,6 +12,10 @@ const std::string WIN_NAME = "imgColor";
 
 int main(int argc, char** argv)
 {
+    DateAndTime dataAndTime;
+    dataAndTime.printFormat();
+    std::string str = dataAndTime.getString();
+    std::cout<<str<<std::endl;
     // Initialize eyes detector
     EyesDetector eyesDetector;
 
@@ -32,12 +36,12 @@ int main(int argc, char** argv)
     while(!img.empty())
     {
 #ifdef SHOW_TIME
-        timer.timingStart();
+        time = timer.stop();
 #endif // SHOW_TIME
         // Detect faces
         int faceNum = eyesDetector.eyesDetect(img, faces, keys);
 #ifdef SHOW_TIME
-        time = timer.timingStop();
+        time = timer.stop() - time;
         std::cout<<"timer: "<<time<<" ms"<<std::endl;
         times.push_back(time);
 #endif // SHOW_TIME

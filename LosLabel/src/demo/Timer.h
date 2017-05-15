@@ -9,6 +9,8 @@
 #include <chrono>
 #include <vector>
 #include <string>
+#include <iostream>
+#include <sstream>
 
 namespace
 {
@@ -44,15 +46,69 @@ namespace
 class Timer
 {
 public:
-    Timer(int _timeZone = 8, int _clockPreSec = 1000) : timeZone(_timeZone), nanosPreClock(nanosPreSeconds / _clockPreSec) {}
+    Timer(int _clockPreSec = 1000) : nanosPreClock(nanosPreSeconds / _clockPreSec)
+    {
+        clockTime = std::chrono::system_clock::now();
+    }
     ~Timer() {}
 
-    void timingStart();
-    double timingStop();
+    void reinit()
+    {
+        notes.clear();
+        clockTime = std::chrono::system_clock::now();
+    }
 
+    double stop() const
+    {
+        return static_cast<double>((std::chrono::system_clock::now() - clockTime).count()) / nanosPreClock;
+    }
 
-    void setTimeZone(const int _timeZone) {timeZone = _timeZone;}
-    int getTimeZone() { return timeZone;}
+    double record()
+    {
+        double note = static_cast<double>((std::chrono::system_clock::now() - clockTime).count()) / nanosPreClock;
+        notes.push_back(note);
+        return note;
+    }
+
+    std::vector<double> getNotes() const
+    {
+        return notes;
+    }
+
+private:
+    std::chrono::system_clock::time_point clockTime;
+    int nanosPreClock;
+
+    std::vector<double> notes;
+};
+
+class DateAndTime
+{
+public:
+    DateAndTime(int _timeZone = 8) : timeZone(_timeZone)
+    {
+        initTime();
+    }
+    ~DateAndTime() {}
+
+    void reinit(int _timeZone = 8)
+    {
+        timeZone = _timeZone;
+        initTime();
+    }
+
+    std::string getString() const
+    {
+        std::stringstream ss;
+        ss << wdayName[wday] << "_" << monthName[month]<<"_"<<day<<"_"<<hour<<"-"<<minute<<"-"<<second<<"_"<<year;
+        return ss.str();
+    }
+
+    void printFormat() const
+    {
+        char *tmp = asctime(&Ctime);
+        std::cout<<tmp;
+    }
 
 private:
     void initTime();
@@ -75,9 +131,6 @@ private:
     time_t seconds;                   /* Seconds since the Epoch.  */
     bool leapYear = false;
     std::vector<int> monthDayNums{0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
-    std::chrono::system_clock::time_point clockTime;
-    int nanosPreClock;
 };
 
 #endif //LOSLABEL_TIMER_H

@@ -5,7 +5,8 @@
 #include "Timer.h"
 #include <iostream>
 
-void Timer::initTime()
+//---------------------DateAndTime--------------------------------------------------------------------------------------
+void DateAndTime::initTime()
 {
     seconds = time(NULL);
     if (timeZone == 8)
@@ -20,20 +21,21 @@ void Timer::initTime()
     setTime();
 }
 
-void Timer::setTime()
+void DateAndTime::setTime()
 {
     year = Ctime.tm_year + 1900;
-    if ((year % 400 == 0) || (year % 100 != 0 && year % 4 == 0))
-    {
-        leapYear = true;
-        monthDayNums[2] += 1;
-    }
     month = Ctime.tm_mon + 1;
     day = Ctime.tm_mday;
     wday = Ctime.tm_wday;
     hour = Ctime.tm_hour;
     minute = Ctime.tm_min;
     second = Ctime.tm_sec;
+
+    if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0))
+    {
+        leapYear = true;
+        monthDayNums[2] += 1;
+    }
 
     if (timeZone != 0 && timeZone != 8)
     {
@@ -84,14 +86,4 @@ void Timer::setTime()
             }
         }
     }
-}
-
-void Timer::timingStart()
-{
-    clockTime = std::chrono::system_clock::now();
-}
-
-double Timer::timingStop()
-{
-    return static_cast<double>((std::chrono::system_clock::now() - clockTime).count()) / nanosPreClock;
 }
