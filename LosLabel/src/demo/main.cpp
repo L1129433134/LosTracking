@@ -6,24 +6,24 @@
 #include "ImageReader.h"
 #include "Timer.h"
 #include "EyesDetector.h"
+#include "LosLabel.h"
 
 #define SHOW_TIME
 const std::string WIN_NAME = "imgColor";
 
 int main(int argc, char** argv)
 {
-    DateAndTime dataAndTime;
-    dataAndTime.printFormat();
-    std::string str = dataAndTime.getString();
-    std::cout<<str<<std::endl;
     // Initialize eyes detector
     EyesDetector eyesDetector;
+
+    // LosLabels
+    LosLabels losLabels;
+    LosLabel losLabel;
 
     //load image
     ImageReader reader;
     cv::Mat img, img_gray;
     reader.getImage(img);
-
 
 #ifdef SHOW_TIME
     Timer timer;
@@ -58,6 +58,11 @@ int main(int argc, char** argv)
             {
                 cv::circle(img, keys[i][j], 2, CV_RGB(0, 255, 0), CV_FILLED);
             }
+            losLabel.setFaceWindow(faces[i]);
+            losLabel.setImageName("test");
+            losLabel.setKeysLocation(keys[i]);
+            losLabel.setFocus(cv::Point(100,100));
+            losLabels.push_back(losLabel);
         }
 
         cv::imshow(WIN_NAME, img);
@@ -80,6 +85,7 @@ int main(int argc, char** argv)
     std::cout<<"Face Detection Cost mean: "<<mean<<" ms!"<<std::endl;
 #endif // SHOW_TIME
 
+    losLabels.write("test.xml");
     std::cout<<"end!!"<<std::endl;
     return 0;
 }

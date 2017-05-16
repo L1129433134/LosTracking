@@ -39,8 +39,6 @@ namespace
             "Friday",
             "Saturday",
     };
-
-    const int nanosPreSeconds =  1000000000;
 }
 
 class Timer
@@ -80,6 +78,7 @@ private:
     int nanosPreClock;
 
     std::vector<double> notes;
+    static const int nanosPreSeconds =  1000000000;
 };
 
 class DateAndTime

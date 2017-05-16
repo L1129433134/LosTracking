@@ -6,9 +6,16 @@
 #define LOSLABEL_LOSLABEL_H
 
 #include "opencv2/opencv.hpp"
+#include "Timer.h"
 
 namespace
 {
+    const std::string CC_LABEL_APPLICATION = "labelApplication";
+    const std::string CC_LOS_TRACKING = "LosTracking";
+    const std::string CC_LABEL_TIME = "labelTime";
+    const std::string CC_LOSLABELS = "losLabels";
+    const std::string CC_LOSLABEL = "losLabel";
+
     // gender
     const std::string CC_MAN = "man";
     const std::string CC_WOMAN = "woman";
@@ -83,11 +90,11 @@ struct LosLabelAttributes
 class LosLabel
 {
 public:
-    LosLabel();
-    ~LosLabel();
-
-    bool writeLabel();
-    bool readLabel();
+    LosLabel()
+    {
+        focusRange = cv::Rect(0, 0, 1000, 1000);
+    }
+    ~LosLabel() {}
 
     void setImageName(const std::string& _imageName) {imageName = _imageName;}
     void setFaceWindow(const cv::Rect& _faceWindow) {faceWindow = _faceWindow;}
@@ -106,15 +113,15 @@ public:
     void setFocusRange(const cv::Point& lt, const cv::Point& rb) {focusRange = cv::Rect(lt,rb);}
     void setAttributes(const LosLabelAttributes& _attributes);
 
-    std::string getImageName() {return imageName;}
-    cv::Rect getfaceWindow() {return faceWindow;}
-    std::vector<cv::Point> getKeysLocation() { return keysLocation;}
+    std::string getImageName() const {return imageName;}
+    cv::Rect getfaceWindow() const {return faceWindow;}
+    std::vector<cv::Point> getKeysLocation() const { return keysLocation;}
     cv::Point getFocus() { return focus;}
-    LosLabelAttributes getAttributes() { return attributes;}
-    cv::Rect getFocusRange() { return focusRange;}
+    LosLabelAttributes getAttributes() const { return attributes;}
+    cv::Rect getFocusRange() const { return focusRange;}
 
     bool check();
-    void write();
+    void write(cv::FileStorage& fs) const;
     void read();
     void writeAttributes();
     void readAttributes();
@@ -132,10 +139,13 @@ private:
 class LosLabels
 {
 public:
-    LosLabels();
-    ~LosLabels();
+    LosLabels() {}
+    ~LosLabels() {}
 
-    void push_back(const LosLabel);
+    void push_back(const LosLabel& losLabel)
+    {
+        labels.push_back(losLabel);
+    }
     LosLabel pop_back();
     void clear() {labels.clear();}
     size_t size() { return labels.size();}
@@ -147,6 +157,7 @@ public:
 
 private:
     std::vector<LosLabel> labels;
+    DateAndTime dateAndTime;
 };
 
 #endif //LOSLABEL_LOSLABEL_H
